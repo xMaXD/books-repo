@@ -1,21 +1,20 @@
 package xmax.dev.springdto.exception;
 
-import java.time.LocalDateTime;
-import java.util.Map;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-import xmax.dev.springdto.dto.CreateBookRequestDto;
-
 @RestControllerAdvice
-public class ExceptionHandler {
-    public ResponseEntity<Map<String, Object>> handleEntityNotFound(EntityNotFoundException exception) {
-        return new ResponseEntity<>(
-                Map.of(
-                        "error", exception.getMessage()
-                ),
-                HttpStatus.NOT_FOUND
-        );
+public class GlobalExceptionHandler {
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<String> handleNotFound(EntityNotFoundException ex) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(ex.getMessage());
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<String> handleGenericException(Exception ex) {
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An unexpected error occurred.");
     }
 }

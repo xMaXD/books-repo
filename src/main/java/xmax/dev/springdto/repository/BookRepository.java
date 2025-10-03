@@ -1,16 +1,7 @@
 package xmax.dev.springdto.repository;
 
-import java.util.List;
-
 import xmax.dev.springdto.model.Book;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface Bookrepository {
-    Book save(Book book);
-
-    List<Book> findAll();
-
-    Book findById(Long id);
-
-
-
+public interface BookRepository extends JpaRepository<Book, Long> {
 }
